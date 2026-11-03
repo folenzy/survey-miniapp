@@ -71,7 +71,10 @@ const QUESTIONS = [
    o:["Да, это очень помогает отвлечься","Скорее нет, мне лучше в тишине","Всё равно"]}
 ];
 const LETTERS = "АБВГД";
-const tg = window.Telegram && Telegram.WebApp && Telegram.WebApp.initData ? Telegram.WebApp : null;
+// initData при запуске с кнопки клавиатуры бывает пустым, поэтому смотрим на platform:
+// вне Telegram она равна "unknown"
+const wa = window.Telegram && Telegram.WebApp;
+const tg = wa && wa.platform && wa.platform !== "unknown" ? wa : null;
 const picked = QUESTIONS.map(() => []);
 const sendBtn = document.getElementById("send");
 
@@ -142,7 +145,7 @@ function submit() {
   if (picked.some(s => !s.length)) return;
   if (tg) { tg.sendData(payload()); return; } // sendData сам закрывает Mini App
   document.getElementById("app").innerHTML =
-    `<div class="thanks"><h1>Спасибо!</h1><p class="sub">Страница открыта вне Telegram, поэтому ответы никуда не отправлены.</p><pre style="white-space:pre-wrap;text-align:left;font-size:12px">${payload()}</pre></div>`;
+    `<div class="thanks"><h1>Ответы не отправлены</h1><p class="sub">Анкета открыта вне Telegram. Откройте бота, отправьте /start и нажмите кнопку «📝 Пройти анкету» под полем ввода.</p></div>`;
   sendBtn.style.display = "none";
 }
 
