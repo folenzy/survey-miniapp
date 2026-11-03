@@ -2,4 +2,4 @@
 
 Telegram Mini App: анкета о влиянии интерьера стоматологического кабинета на тревожность.
 
-Страница: https://<логин>.github.io/survey-miniapp/
+Страница: https://folenzy.github.io/survey-miniapp/
